@@ -18,9 +18,10 @@ typedef struct registro
 
 void incluir_no_final(lista *l, int x);
 void incluir_no_inicio(lista *l , int x);
-void mostrar_lista(lista *l);
+void mostrar_lista(lista *l, int invertido, int primo);
 registro *aloca_registro();
 lista *aloca_lista();
+int n_primo(int x);
 
 int main()
 {
@@ -54,7 +55,10 @@ int main()
             incluir_no_final(l,numero);
             break;
         case 3:
-            mostrar_lista(l);
+            mostrar_lista(l,0,0);
+            break;
+        case 4:
+            mostrar_lista(l,0,1);
             break;
         case 8:
             printf("Saindo do programa");
@@ -134,11 +138,34 @@ void incluir_no_final(lista *l, int x)
 }
 
 
-void mostrar_lista(lista *l)
+void mostrar_lista(lista *l, int invertido, int primo)
 {
-    if (l->inicio == NULL)
+    if (l->inicio == NULL && l->fim == NULL)
     {
         printf("\n Lista vazia");
+    }
+
+    registro *aux;
+
+    if(!invertido){
+        aux = l->inicio;
+        while (aux!= NULL)
+        {
+            if (primo)
+            {
+                if (n_primo(aux->valor))
+                {
+                    printf("%d\n", aux->valor);
+                }
+                
+            }
+            else
+            {
+                printf("%d\n", aux->valor);
+            }
+            
+        }
+        
     }
     else
     {
@@ -153,22 +180,23 @@ void mostrar_lista(lista *l)
     }
 }
 
-void mostrar_primos(lista *l)
+int n_primo(int x)
 {
-    if (l->inicio == NULL)
+    if (x == 0 || x == 1)
     {
-        printf("\n Lista vazia");
+        return 0;
     }
-    else
+    
+    int div;
+
+    for (div = 2; div < x; div++)
     {
-        registro *aux;
-        aux = l->inicio;
-
-        while (aux != NULL)
+        if (x%div==0)
         {
-
-            printf("\nValor = %d", aux->valor);
-            aux = aux->prox;
+            return 0;
         }
     }
+    return 1;
 }
+
+void 
